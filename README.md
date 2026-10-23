@@ -6,7 +6,7 @@ Visual anomaly inspection for a single industrial product category. The first ba
 
 First bottle baseline fitted and evaluated locally on the M3 GPU. The frozen ResNet18 feature model uses 168 normal reference images and 41 separate normal calibration images. On the first 83-image test evaluation it detected 61/63 defects, missed 2, and flagged 1/20 good images. Image AUROC was 0.9873. See [results and limitations](RESULTS.md) and the [raw report](reports/evaluation-20261023T042247Z.json).
 
-The upload endpoint was implemented with explicit missing-model and invalid-file handling. Defect localization, model comparisons, and deployment remain future work. This baseline fits references and a threshold; it does not fine-tune the pretrained neural network.
+The upload endpoint was implemented with explicit missing-model and invalid-file handling. A [comparison with grayscale pixel features](COMPARISON.md) found 55/63 versus 61/63 defects detected at separately calibrated thresholds; the simpler method was faster in a small local timing sample. Defect localization and deployment remain future work. This baseline fits references and a threshold; it does not fine-tune the pretrained neural network.
 
 ## Setup
 
@@ -49,7 +49,7 @@ Tests exercise score behavior, feature validation, upload errors, missing-model 
 
 ## Continuous integration
 
-The `Tests` GitHub Actions workflow runs on pushes and pull requests, with an optional manual trigger. It installs CPU-only PyTorch and pinned dependencies under Python 3.12 on Ubuntu, checks package compatibility, and runs seven tests. No dataset, fitted artifact, GPU, or pretrained-weight download is required by these tests. The missing-model test also verifies that the backbone is not loaded.
+The `Tests` GitHub Actions workflow runs on pushes and pull requests, with an optional manual trigger. It installs CPU-only PyTorch and pinned dependencies under Python 3.12 on Ubuntu, checks package compatibility, and runs ten tests. No dataset, fitted artifact, GPU, or pretrained-weight download is required by these tests. The missing-model test also verifies that the backbone is not loaded.
 
 This validates software behavior, not defect-detection quality or MPS execution. The separate local dataset evaluation and saved reports provide the measured baseline results. The first hosted workflow run must pass before claiming CI verification.
 
@@ -57,7 +57,7 @@ This validates software behavior, not defect-detection quality or MPS execution.
 
 1. Completed: acquire the bottle dataset and record mirror provenance and attribution.
 2. Completed: fit and evaluate the frozen-feature baseline with explicit data splits.
-3. Compare against a simpler baseline and investigate false alarms/missed defects.
+3. Completed: compare against grayscale pixel features and report missed defects, false alarms, and timing limits. Further error analysis remains planned.
 4. Add localization or a trained/adapted vision model only where justified by results.
 5. Add repeatable experiments, CI, a reviewed visual demo, and deployment packaging.
 

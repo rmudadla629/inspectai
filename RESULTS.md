@@ -40,3 +40,7 @@ The fit artifact and pretrained weights remain local and excluded from Git. Mani
 Keep this first result and its fixed threshold as the baseline. Future parameter/model selection needs a development-validation plan; repeatedly tuning to these observed test errors would contaminate claims of independent test performance. Planned comparisons should report both quality and inference cost, include a simpler baseline, and retain false-positive/false-negative analysis. A separate unseen dataset or reserved split is needed for stronger generalization claims.
 
 Dataset rights remain CC BY-NC-SA 4.0. No dataset pixels are distributed by this repository and no commercial suitability is claimed.
+
+## Subsequent comparison
+
+The original artifact and threshold were retained for a [grayscale-feature comparison](COMPARISON.md). On the same already-inspected test split, pixel features detected 55/63 defects with two false alarms; ResNet18 reproduced 61/63 with one false alarm. This is additional comparative development evidence, not a second independent test set.
