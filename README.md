@@ -6,7 +6,7 @@ Visual anomaly inspection for a single industrial product category. The first ba
 
 First bottle baseline fitted and evaluated locally on the M3 GPU. The frozen ResNet18 feature model uses 168 normal reference images and 41 separate normal calibration images. On the first 83-image test evaluation it detected 61/63 defects, missed 2, and flagged 1/20 good images. Image AUROC was 0.9873. See [results and limitations](RESULTS.md) and the [raw report](reports/evaluation-20261023T042247Z.json).
 
-The upload endpoint was implemented with explicit missing-model and invalid-file handling. A [comparison with grayscale pixel features](COMPARISON.md) found 55/63 versus 61/63 defects detected at separately calibrated thresholds; the simpler method was faster in a small local timing sample. An [experimental spatial method](PATCH_EXPERIMENT.md) adds coarse local heatmaps but has not established localization accuracy; deployment remains future work. This baseline fits references and a threshold; it does not fine-tune the pretrained neural network.
+The upload endpoint was implemented with explicit missing-model and invalid-file handling. A [comparison with grayscale pixel features](COMPARISON.md) found 55/63 versus 61/63 defects detected at separately calibrated thresholds; the simpler method was faster in a small local timing sample. An [experimental spatial method](PATCH_EXPERIMENT.md) adds coarse local heatmaps but has not established localization accuracy; Docker packaging is available for local use; public deployment remains future work. This baseline fits references and a threshold; it does not fine-tune the pretrained neural network.
 
 ## Setup
 
@@ -19,6 +19,10 @@ python3 -m venv .venv
 ```
 
 Open http://127.0.0.1:8100/. PNG/JPEG uploads are processed in memory, limited to 8 MiB and decoded image-size checks. The app stays on localhost.
+
+## Docker
+
+See [Docker setup](DOCKER.md) for a CPU container on localhost port 8101. Prepare the local model and cached weights first; Compose mounts them read-only.
 
 ## Dataset
 
@@ -59,6 +63,6 @@ This validates software behavior, not defect-detection quality or MPS execution.
 2. Completed: fit and evaluate the frozen-feature baseline with explicit data splits.
 3. Completed: compare against grayscale pixel features and report missed defects, false alarms, and timing limits. A [visual error analysis](ERROR_ANALYSIS.md) documents both missed defects and the false alarm, with a locally generated image review.
 4. Completed experiment: spatial features and local heatmaps; measured tradeoffs retain the original app baseline. Localization accuracy remains unvalidated.
-5. Add repeatable experiments, CI, a reviewed visual demo, and deployment packaging.
+5. Completed: software CI and local Docker packaging with verified CPU uploads. A reviewed screenshot walkthrough remains to finish this version.
 
 Repository: [rmudadla629/inspectai](https://github.com/rmudadla629/inspectai). Dataset images, pretrained weights, fitted artifacts, and local caches are excluded from Git. Reproduce the model locally using the documented data acquisition and fitting commands.

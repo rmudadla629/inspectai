@@ -1,0 +1,26 @@
+services:
+  inspectai:
+    build: .
+    ports:
+      - "127.0.0.1:8101:8100"
+    volumes:
+      - type: bind
+        source: ./artifacts
+        target: /app/artifacts
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./.cache/torch
+        target: /app/.cache/torch
+        read_only: true
+        bind:
+          create_host_path: false
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    init: true

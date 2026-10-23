@@ -1,0 +1,7 @@
+*
+!Dockerfile
+!requirements.txt
+!inspectai/
+!inspectai/**
+inspectai/__pycache__/
+inspectai/**/*.pyc

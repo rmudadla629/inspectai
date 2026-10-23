@@ -28,3 +28,29 @@ jobs:
         run: python -m pip check
       - name: Run tests without datasets or fitted models
         run: python -m unittest discover -s tests -v
+
+  container:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Build CPU container without local artifacts
+        run: docker build -t inspectai-ci .
+      - name: Check packaged app and missing-model response
+        run: |
+          docker run --rm --entrypoint python inspectai-ci -c '
+          from io import BytesIO
+          from PIL import Image
+          from inspectai.web import app
+          client = app.test_client()
+          assert client.get("/health").json == {"status": "ok", "baseline_fitted": False}
+          assert client.get("/").status_code == 200
+          image = BytesIO()
+          Image.new("RGB", (32, 32)).save(image, format="PNG")
+          image.seek(0)
+          response = client.post("/inspect", data={"image": (image, "sample.png")})
+          assert response.status_code == 503, response.status_code
+          print("Packaged app: health, home, and honest missing-model response passed.")
+          '
