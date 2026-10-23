@@ -48,3 +48,7 @@ The original artifact and threshold were retained for a [grayscale-feature compa
 ## Visual error review
 
 [Error analysis](ERROR_ANALYSIS.md) reviews all three mistakes, separates visual observations from untested hypotheses, and provides a generator for a local image-and-mask report. The original model and threshold remain unchanged.
+
+## Spatial experiment
+
+A [patch-feature experiment](PATCH_EXPERIMENT.md) measured 58/63 defects detected, zero false alarms, and AUROC 0.9913 on the same inspected split. It provides coarse local maps but misses more defects at its calibration threshold; the original app method is retained.
