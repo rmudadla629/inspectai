@@ -44,3 +44,7 @@ Dataset rights remain CC BY-NC-SA 4.0. No dataset pixels are distributed by this
 ## Subsequent comparison
 
 The original artifact and threshold were retained for a [grayscale-feature comparison](COMPARISON.md). On the same already-inspected test split, pixel features detected 55/63 defects with two false alarms; ResNet18 reproduced 61/63 with one false alarm. This is additional comparative development evidence, not a second independent test set.
+
+## Visual error review
+
+[Error analysis](ERROR_ANALYSIS.md) reviews all three mistakes, separates visual observations from untested hypotheses, and provides a generator for a local image-and-mask report. The original model and threshold remain unchanged.

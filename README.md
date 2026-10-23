@@ -57,7 +57,7 @@ This validates software behavior, not defect-detection quality or MPS execution.
 
 1. Completed: acquire the bottle dataset and record mirror provenance and attribution.
 2. Completed: fit and evaluate the frozen-feature baseline with explicit data splits.
-3. Completed: compare against grayscale pixel features and report missed defects, false alarms, and timing limits. Further error analysis remains planned.
+3. Completed: compare against grayscale pixel features and report missed defects, false alarms, and timing limits. A [visual error analysis](ERROR_ANALYSIS.md) documents both missed defects and the false alarm, with a locally generated image review.
 4. Add localization or a trained/adapted vision model only where justified by results.
 5. Add repeatable experiments, CI, a reviewed visual demo, and deployment packaging.
 
