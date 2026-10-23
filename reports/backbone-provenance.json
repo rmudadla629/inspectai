@@ -1,0 +1,10 @@
+{
+  "recorded_at": "2026-10-23T04:23:49.271029+00:00",
+  "url": "https://download.pytorch.org/models/resnet18-f37072fd.pth",
+  "sha256": "f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec",
+  "weight_enum": "ResNet18_Weights.IMAGENET1K_V1",
+  "torch": "2.9.1",
+  "torchvision": "0.24.1",
+  "device": "mps",
+  "note": "Frozen pretrained backbone; task-specific neural weights were not trained."
+}
