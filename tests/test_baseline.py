@@ -24,8 +24,10 @@ class BaselineTests(unittest.TestCase):
     def test_no_model_does_not_fake_prediction(self):
         from inspectai.baseline import predict
         with tempfile.TemporaryDirectory() as directory:
-            with self.assertRaises(FileNotFoundError):
-                predict(Image.new('RGB', (32, 32)), Path(directory) / 'missing.npz')
+            with patch('inspectai.features.backbone', side_effect=AssertionError('Backbone must not load without a fitted artifact')) as model:
+                with self.assertRaises(FileNotFoundError):
+                    predict(Image.new('RGB', (32, 32)), Path(directory) / 'missing.npz')
+                model.assert_not_called()
 
     def test_upload_rejects_invalid_file(self):
         response = app.test_client().post('/inspect', data={'image': (BytesIO(b'not an image'), 'bad.png')})

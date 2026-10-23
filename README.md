@@ -47,6 +47,12 @@ Do not repeatedly tune using test results and continue calling that split held o
 
 Tests exercise score behavior, feature validation, upload errors, missing-model behavior, and disjoint deterministic splits. Synthetic images in software tests are not a defect detection benchmark.
 
+## Continuous integration
+
+The `Tests` GitHub Actions workflow runs on pushes and pull requests, with an optional manual trigger. It installs CPU-only PyTorch and pinned dependencies under Python 3.12 on Ubuntu, checks package compatibility, and runs seven tests. No dataset, fitted artifact, GPU, or pretrained-weight download is required by these tests. The missing-model test also verifies that the backbone is not loaded.
+
+This validates software behavior, not defect-detection quality or MPS execution. The separate local dataset evaluation and saved reports provide the measured baseline results. The first hosted workflow run must pass before claiming CI verification.
+
 ## Planned milestones
 
 1. Completed: acquire the bottle dataset and record mirror provenance and attribution.
