@@ -2,11 +2,19 @@
 
 Visual anomaly inspection for a single industrial product category. The first baseline uses frozen ResNet18 ImageNet features and distance to normal bottle-image references.
 
-## Status
+[Screenshot walkthrough](WALKTHROUGH.md) · [Measured results](RESULTS.md) · [Docker setup](DOCKER.md) · [Failure analysis](ERROR_ANALYSIS.md)
+
+## Results and scope
 
 First bottle baseline fitted and evaluated locally on the M3 GPU. The frozen ResNet18 feature model uses 168 normal reference images and 41 separate normal calibration images. On the first 83-image test evaluation it detected 61/63 defects, missed 2, and flagged 1/20 good images. Image AUROC was 0.9873. See [results and limitations](RESULTS.md) and the [raw report](reports/evaluation-20261023T042247Z.json).
 
 The upload endpoint was implemented with explicit missing-model and invalid-file handling. A [comparison with grayscale pixel features](COMPARISON.md) found 55/63 versus 61/63 defects detected at separately calibrated thresholds; the simpler method was faster in a small local timing sample. An [experimental spatial method](PATCH_EXPERIMENT.md) adds coarse local heatmaps but has not established localization accuracy; Docker packaging is available for local use; public deployment remains future work. This baseline fits references and a threshold; it does not fine-tune the pretrained neural network.
+
+## Request flow
+
+Upload PNG/JPEG → validate size and decoding → frozen ResNet18 features → nearest normal-reference distance → compare with the normal-calibrated threshold → return a review message.
+
+The separate patch experiment produces coarse spatial maps in a local report; it does not replace this upload flow.
 
 ## Setup
 
@@ -55,14 +63,14 @@ Tests exercise score behavior, feature validation, upload errors, missing-model 
 
 The `Tests` GitHub Actions workflow runs on pushes and pull requests, with an optional manual trigger. It installs CPU-only PyTorch and pinned dependencies under Python 3.12 on Ubuntu, checks package compatibility, and runs thirteen tests. No dataset, fitted artifact, GPU, or pretrained-weight download is required by these tests. The missing-model test also verifies that the backbone is not loaded.
 
-This validates software behavior, not defect-detection quality or MPS execution. The separate local dataset evaluation and saved reports provide the measured baseline results. The first hosted workflow run must pass before claiming CI verification.
+This validates software behavior, not defect-detection quality or MPS execution. The separate local dataset evaluation and saved reports provide the measured baseline results. Both software and container checks passed on GitHub Actions during development. The container job builds without model/data files and checks the packaged app and missing-model response. See [Docker details](DOCKER.md).
 
-## Planned milestones
+## Version 1 coverage
 
 1. Completed: acquire the bottle dataset and record mirror provenance and attribution.
 2. Completed: fit and evaluate the frozen-feature baseline with explicit data splits.
 3. Completed: compare against grayscale pixel features and report missed defects, false alarms, and timing limits. A [visual error analysis](ERROR_ANALYSIS.md) documents both missed defects and the false alarm, with a locally generated image review.
 4. Completed experiment: spatial features and local heatmaps; measured tradeoffs retain the original app baseline. Localization accuracy remains unvalidated.
-5. Completed: software CI and local Docker packaging with verified CPU uploads. A reviewed screenshot walkthrough remains to finish this version.
+5. Completed: software CI and local Docker packaging with verified CPU uploads. The [reviewed screenshot walkthrough](WALKTHROUGH.md) completes the local demo documentation.
 
 Repository: [rmudadla629/inspectai](https://github.com/rmudadla629/inspectai). Dataset images, pretrained weights, fitted artifacts, and local caches are excluded from Git. Reproduce the model locally using the documented data acquisition and fitting commands.

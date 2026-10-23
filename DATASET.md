@@ -3,7 +3,7 @@
 ## Intended dataset
 
 - MVTec AD, bottle category: [official source](https://www.mvtec.com/research-teaching/datasets/mvtec-ad).
-- MVTec AD provides defect-free training images, test images with and without anomalies, and pixel-level annotations. This first baseline uses image labels; pixel masks are not used yet.
+- MVTec AD provides defect-free training images, test images with and without anomalies, and pixel-level annotations. The baseline evaluation uses image labels. Pixel masks appear only in the local retrospective error review; they do not fit the model or establish localization accuracy.
 - The official page states CC BY-NC-SA 4.0 and prohibits commercial use. Review those terms before obtaining or using the dataset. The public portfolio must not imply a commercially licensed product.
 - Download status: bottle category obtained from a pinned third-party mirror after both current and older official MyDrive archive links returned HTTP 404. The mirror preserves the MVTec attribution and CC BY-NC-SA 4.0 license files. No official archive was downloaded, so no official archive checksum is claimed.
 
@@ -17,7 +17,7 @@ Pretrained weights originate from the Torchvision weight URL, not random initial
 
 ## Reproducibility limits
 
-The fit manifest records split image content hashes and seed. The evaluation records its fitted artifact hash and test image hashes. Dependency versions are pinned. Exact duplicate checks do not establish absence of near duplicates. The planned first benchmark covers one category and cannot support claims about all industrial defects.
+The fit manifest records split image content hashes and seed. The evaluation records its fitted artifact hash and test image hashes. Dependency versions are pinned. Exact duplicate checks do not establish absence of near duplicates. The measured benchmark covers one category and cannot support claims about all industrial defects.
 
 ## Acquired copy
 
